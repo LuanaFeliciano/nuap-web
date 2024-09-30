@@ -11,17 +11,16 @@
     </div>
     <div class="right-side">
       <div class="login-box">
-        <h2>Login</h2>
+        <h3>Login</h3>
         <q-input v-model="email" label="Email" filled class="login-input" />
         <q-input
           v-model="senha"
           label="Senha"
           type="password"
-          filled
-          class="login-input"
+          filled class="login-input"
         />
-        <q-btn label="Login" color="primary" class="login-button" />
-        <q-btn flat label="Cadastre-se" color="secondary" class="register-link" />
+        <q-btn label="Login" color="#ffffff" class="login-button" />
+        <q-btn flat label="Cadastre-se" color="#ffffff" class="register" />
       </div>
     </div>
   </q-page>
@@ -82,7 +81,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #00ADEE, #149e93, #077157);
+  /* background: linear-gradient(180deg, #00ADEE, #149e93, #077157); */
   border-radius: 0 20px 20px 0;
   padding: 40px;
 }
@@ -90,31 +89,33 @@ export default {
 .login-box {
   width: 300px;
   text-align: center;
+  color: rgb(255, 255, 255);
 }
 
 .login-box h2 {
   font-size: 1.8em;
   margin-bottom: 20px;
+  color: rgb(255, 255, 255);
 }
 
 .login-input {
   margin-bottom: 20px;
-  border-radius: 50px;
-  color: white;
+  border-radius: 100px;
+  color: rgb(255, 255, 255);
+  background-color: #ffffff;
 }
 
 .login-button {
   width: 100%;
-  background: linear-gradient(to right, #43595e, #077157);
+  background:#0B8069;
   color: white;
   border-radius: 50px;
   margin-bottom: 10px;
 }
 
-.register-link {
-  display: block;
+.register {
   margin-top: 10px;
-  color: #0083b0;
-  font-size: 0.9em;
+  color: #ffffff;
+  font-size: 0.8em;
 }
 </style>
