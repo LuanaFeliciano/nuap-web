@@ -21,7 +21,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/Retorno.vue')}],
   },
-    path: '/cadastro',
+  {  path: '/cadastro',
     component: () => import('layouts/LoginLayout.vue'),
     children: [{ path: '', component: () => import('pages/Cadastro.vue') }],
   },
