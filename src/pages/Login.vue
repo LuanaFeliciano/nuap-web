@@ -12,13 +12,8 @@
     <div class="right-side">
       <div class="login-box">
         <h3>Login</h3>
-        <q-input v-model="email" label="Email" filled class="login-input" />
-        <q-input
-          v-model="senha"
-          label="Senha"
-          type="password"
-          filled class="login-input"
-        />
+        <q-input outlined rounded v-model="email" label="Email" filled class="login-input" />
+        <q-input outlined rounded v-model="senha" label="Senha" type="password" filled class="login-input"/>
         <q-btn label="Login" color="#ffffff" class="login-button" />
         <q-btn flat label="Cadastre-se" color="#ffffff" class="register" />
       </div>
@@ -81,13 +76,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: linear-gradient(180deg, #00ADEE, #149e93, #077157); */
   border-radius: 0 20px 20px 0;
   padding: 40px;
 }
 
 .login-box {
-  width: 300px;
+  width: 400px;
   text-align: center;
   color: rgb(255, 255, 255);
 }
@@ -101,21 +95,25 @@ export default {
 .login-input {
   margin-bottom: 20px;
   border-radius: 100px;
-  color: rgb(255, 255, 255);
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 .login-button {
-  width: 100%;
+  width: 200px;
   background:#0B8069;
-  color: white;
+  color: rgb(255, 255, 255);
   border-radius: 50px;
   margin-bottom: 10px;
+  font-size: 1.5em;
 }
 
 .register {
   margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 95px;
+  margin-right: 95px;
   color: #ffffff;
-  font-size: 0.8em;
+  font-size: 0.9em;
+  align-items: center;
 }
 </style>
