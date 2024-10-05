@@ -1,45 +1,38 @@
 <template>
-  <q-page class="q-pa-md q-mt-lg">
-    <div class="row q-col-gutter-md justify-center">
-      <!-- Logo -->
+  <q-page class="q-pa-md">
+    <div class="row q-col-gutter-md q-mt-sm q-ml-lg">
       <div class="col-3">
-        <q-img src="/src/assets/NuapLogo2.png" alt="NuAP Logo" style="max-width: 100%;" />
-        <p class="text-center text-subtitle2">Núcleo de Apoio Psicopedagógico</p>
+        <q-img src="/src/assets/NuapLogo2.png" alt="NuAP Logo" style="max-width: 230px;" />
       </div>
 
-      <!-- Form -->
-      <div class="col-6">
+      <div class="col-6" style="margin-top: 100px;">
         <q-card class="q-pa-md">
-          <div class="text-h4 text-center">Cadastro</div>
+          <div class="text-h4 " style="margin-bottom: 50px;">Cadastro</div>
 
           <q-form @submit="onSubmit">
-            <!-- Nome and RA -->
             <div class="row q-col-gutter-md q-mt-md">
               <div class="col-9">
                 <q-input v-model="form.nome" label="Nome" outlined rounded />
               </div>
               <div class="col-3">
-                <q-input v-model="form.ra" label="Ra" outlined rounded />
+                <q-input v-model="form.ra" label="Ra" outlined rounded mask="######-#"/>
               </div>
+
             </div>
 
-            <!-- Email -->
-            <div class="q-mt-md">
+            <div class="q-mt-lg">
               <q-input v-model="form.email" label="Email" type="email" outlined rounded />
             </div>
-
-            <!-- Telefone and Celular -->
-            <div class="row q-col-gutter-md q-mt-md">
+            <div class="row q-col-gutter-md q-mt-sm">
               <div class="col-6">
-                <q-input v-model="form.telefone" label="Telefone" outlined rounded />
+                <q-input v-model="form.telefone" label="Telefone" outlined rounded mask="(##) ####-####" />
               </div>
               <div class="col-6">
-                <q-input v-model="form.celular" label="Celular" outlined rounded />
+                <q-input v-model="form.celular" label="Celular" outlined rounded mask="(##) ####-####" />
               </div>
             </div>
 
-            <!-- Senha and Confirmar Senha -->
-            <div class="row q-col-gutter-md q-mt-md">
+            <div class="row q-col-gutter-md q-mt-sm">
               <div class="col-6">
                 <q-input v-model="form.senha" label="Senha" type="password" outlined rounded />
               </div>
@@ -48,25 +41,23 @@
               </div>
             </div>
 
-            <!-- Cargo -->
-            <div class="q-mt-md">
+            <div class="q-mt-lg">
               <q-select
                 v-model="form.cargo"
                 label="Cargo"
                 outlined
                 rounded
-                :options="['Professor', 'Aluno', 'Coordenador']"
+                :options="['Atendente', 'Estágiario', 'Coordenador']"
               />
             </div>
 
-            <!-- Button -->
             <div class="q-mt-lg">
               <q-btn
                 label="Cadastrar"
-                color="primary"
                 class="full-width"
                 rounded
                 @click="onSubmit"
+
               />
             </div>
           </q-form>
@@ -95,7 +86,7 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.form);
-      // You can handle form submission here
+
     }
   }
 };
@@ -103,18 +94,24 @@ export default {
 
 <style scoped>
 .q-page {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
 }
 
 .q-card {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 }
 
 .q-btn {
-  background-color: #00796b;
+  background-color: #3e867e;
+  height: 50px;
 }
 
 .q-btn:hover {
   background-color: #004d40;
+}
+
+.text-h4 {
+  color: #00505B;
+  font-size: 60px;
 }
 </style>
