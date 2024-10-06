@@ -22,16 +22,36 @@
         <q-card-section>
           <div class="text-h6 text-center">Registro de Primeiro Atendimento</div>
 
-
           <q-input
             v-model="data"
-            label="Data (DD/MM/YY)"
-            class="q-mb-md"
-            :rules="['date']"
+            label="Data (Dia/Mês/Ano)"
+            class="q-mb-md input-date"
+            mask="##/##/####"
+            :rules="[validaData]"
             @blur="validateDate"
+            filled
+          >
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer" @click="openDatePicker">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date v-model="data" mask="DD/MM/YYYY" @input="formatDate">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+
+          <q-input
+            v-model="ra"
+            label="RA"
+            class="q-mb-md input-ra"
+            mask="############"
+            filled
           />
 
-          <q-input v-model="ra" label="RA" class="q-mb-md" />
           <q-input v-model="termo" label="Termo" class="q-mb-md" />
           <q-input v-model="constelacaoFamiliar" label="Constelação Familiar" filled />
           <q-input v-model="residencia" label="Com quem reside" filled />
@@ -81,7 +101,7 @@ export default {
       if (dateParts.length === 3) {
         const day = parseInt(dateParts[0], 10);
         const month = parseInt(dateParts[1], 10) - 1; // Meses em JS começam do 0
-        const year = parseInt(dateParts[2], 10) + 2000; // Considerando ano de 2000+
+        const year = parseInt(dateParts[2], 10);
 
         const date = new Date(year, month, day);
         if (
@@ -89,14 +109,25 @@ export default {
           date.getMonth() === month &&
           date.getDate() === day
         ) {
-
           console.log("Data válida:", date);
         } else {
-
-          this.data = ''; // Reseta campo em caso de data inválida
           console.error("Data inválida");
         }
       }
+    },
+    validaData(val) {
+      const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      if (!val.match(regex)) {
+        return 'Data inválida. Use o formato DD/MM/AAAA';
+      }
+      return true;
+    },
+    openDatePicker() {
+      // Método para abrir o date picker, se necessário.
+    },
+    formatDate(date) {
+      // Atualiza a data no formato correto
+      this.data = date;
     }
   }
 };
@@ -123,8 +154,18 @@ export default {
   font-size: 16px;
   margin-right: 10px;
 }
+
 .bg-primary {
   background-image: linear-gradient(#00ADEE,#19B1A4, #077157) !important;
 }
 
+/* Ajuste de largura para o campo de Data */
+.input-date {
+  max-width: 220px; /* Ajuste para caber DD/MM/AAAA */
+}
+
+/* Ajuste de largura para o campo de RA */
+.input-ra {
+  max-width: 180px; /* Ajuste para caber 12 números */
+}
 </style>
