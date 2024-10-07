@@ -1,61 +1,52 @@
 <template>
-  <q-page class="q-pa-md">
-    <q-card>
-      <q-card-section>
-        <div class="text-h6">Registro de Primeiro Atendimento</div>
-      </q-card-section>
+  <q-page >
+    <!-- Form Section -->
+    <div class="q-pa-lg">
+      <q-card class="q-pa-lg">
+        <div class="text-h3 q-mb-lg" align="center">Registro de Primeiro Atendimento</div>
+        <div class="text-h6 q-mb-sm">Data: </div>
+        <div class="text-h6 q-mb-sm">RA: </div>
+        <div class="text-h6 q-mb-sm">Estagiário responsável pelo atendimento: </div>
 
-      <q-card-section>
-        <q-form @submit="onSubmit">
-          <!-- Aluno -->
-          <q-input v-model="form.aluno" label="Aluno" filled />
 
-          <!-- Atendente -->
-          <q-input v-model="form.atendente" label="Atendente" filled />
+        <q-form>
+          <div class="row">
+            <div class="col-12 q-mb-md">
+              <q-input outlined label="Constelação Familiar" />
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-input outlined label="Com quem reside" />
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-input outlined label="Rotina de vida e estudos" />
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-input type="textarea" outlined label="Relato do primeiro atendimento" />
+            </div>
 
-          <!-- Data -->
-          <q-input v-model="form.data" label="Data" filled />
+            <div class="col-12 q-mb-md">
+              <div class="text-h7 q-mb-md">Estágio de mudança:</div>
+              <q-option-group
+                v-model="stage"
+                :options="stageOptions"
+                type="radio"
+                inline
+              />
+            </div>
 
-          <!-- Estagiário responsável pelo atendimento -->
-          <q-input v-model="form.estagiario" label="Estagiário responsável pelo atendimento" filled />
-
-          <!-- RA -->
-          <q-input v-model="form.ra" label="RA" filled />
-
-          <!-- Termo -->
-          <q-input v-model="form.termo" label="Termo" filled />
-
-          <!-- Constelação Familiar -->
-          <q-input v-model="form.constelacaoFamiliar" label="Constelação Familiar" filled />
-
-          <!-- Com quem reside -->
-          <q-input v-model="form.comQuemReside" label="Com quem reside" filled />
-
-          <!-- Rotina de vida e estudos -->
-          <q-input v-model="form.rotinaVidaEstudos" label="Rotina de vida e estudos" filled />
-
-          <!-- Relato do primeiro atendimento -->
-          <q-input v-model="form.relato" label="Relato do primeiro atendimento" type="textarea" filled />
-
-          <!-- Estágio de mudança -->
-          <q-select
-            v-model="form.estagioMudanca"
-            :options="estagiosMudanca"
-            label="Estágio de mudança"
-            filled
-          />
-
-          <!-- Combinados -->
-          <q-input v-model="form.combinados" label="Combinados" type="textarea" filled />
-
-          <!-- Observação -->
-          <q-input v-model="form.observacao" label="Observação" type="textarea" filled />
-
-          <!-- Botões -->
-          <q-btn label="Salvar" type="submit" color="primary" class="q-mt-md" />
+            <div class="col-12 q-mb-md">
+              <q-input outlined label="Combinados" />
+            </div>
+            <div class="col-12 q-mb-md">
+              <q-input outlined label="Observação" />
+            </div>
+          </div>
         </q-form>
-      </q-card-section>
-    </q-card>
+      </q-card>
+    </div>
+    <div class="q-pl-xl q-mb-lg flex">
+      <q-btn color="primary" label="Salvar" />
+    </div>
   </q-page>
 </template>
 
@@ -63,43 +54,24 @@
 export default {
   data() {
     return {
-      form: {
-        aluno: '',
-        atendente: '',
-        data: '',
-        estagiario: '',
-        ra: '',
-        termo: '',
-        constelacaoFamiliar: '',
-        comQuemReside: '',
-        rotinaVidaEstudos: '',
-        relato: '',
-        estagioMudanca: '',
-        combinados: '',
-        observacao: '',
-      },
-      estagiosMudanca: [
-        'Pré-contemplação',
-        'Contemplação',
-        'Preparação',
-        'Ação',
-        'Manutenção',
-        'Recaída',
-      ],
-    };
-  },
-  methods: {
-    onSubmit() {
-      console.log(this.form);
-      // Aqui você pode fazer a lógica de envio para o backend
-    },
-  },
-};
+      stage: '',
+      stageOptions: [
+        { label: 'Pré-contemplação', value: 'pre' },
+        { label: 'Contemplação', value: 'contemplation' },
+        { label: 'Preparação', value: 'preparation' },
+        { label: 'Ação', value: 'action' },
+        { label: 'Manutenção', value: 'maintenance' },
+        { label: 'Recaída', value: 'relapse' }
+      ]
+    }
+  }
+}
 </script>
 
 <style scoped>
-.q-page {
-  max-width: 600px;
-  margin: 0 auto;
+.q-card {
+  max-width: auto;
+  margin: auto;
 }
 </style>
+
