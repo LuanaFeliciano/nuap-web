@@ -36,13 +36,13 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/primeiroAtend',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Atendimentos/PrimeiroAtendimento.vue')}],
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [{ path: '', component: () => import('pages/HistAtendimento/PrimeiroAtendimento.vue')}],
   },
   {
     path: '/atendRotina',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Atendimentos/AtendimentoRotina.vue')}],
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [{ path: '', component: () => import('pages/HistAtendimento/AtendimentoRotina.vue')}],
   },
 
   // Always leave this as last one,
