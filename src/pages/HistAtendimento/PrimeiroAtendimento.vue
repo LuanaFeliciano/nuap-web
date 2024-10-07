@@ -2,66 +2,33 @@
   <q-page padding>
     <q-bar class="bg-primary text-white q-pa-md header-bar">
       <q-img src="/src/assets/LogoNuAP.png" class="q-mr-md logo-img" width="100px" />
-      <q-btn flat label="Aluno" class="q-ml-sm" />
-      <q-btn flat label="teste" />
-      <q-btn flat label="teste" />
-      <q-btn flat label="teste" />
-      <q-btn flat label="teste" />
+      <q-btn flat label="Aluno" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
+      <q-btn flat label="teste" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
+      <q-btn flat label="teste" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
+      <q-btn flat label="teste" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
+      <q-btn flat label="teste" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
       <q-space />
       <div class="user-info q-gutter-xs">
         <q-avatar size="40px" class="q-ml-md">
           <q-icon name="person" />
         </q-avatar>
         <div class="q-ml-sm">Cristovam</div>
-        <q-chip outline color="white" class="q-ml-sm">Atendente</q-chip>
+        <q-chip outline color="white" class="q-ml-sm">Coordenador(a)</q-chip>
       </div>
     </q-bar>
 
     <div class="q-pa-md">
       <q-card flat bordered>
         <q-card-section>
-          <div class="text-h6 text-center">Registro Documental - Retorno Número:</div>
+          <div class="text-h3 text-center">Registro de Primeiro Atendimento</div>
+          <div class="text-h6">Data: 01/01/0001 </div>
+          <div class="text-h6">RA: 123456-7</div>
+          <div class="text-h6 q-mb-lg">Termo: 5</div>
 
-          <q-input
-            v-model="data"
-            label="Data (Dia/Mês/Ano)"
-            class="q-mb-md input-date"
-            mask="##/##/####"
-            :rules="[validaData]"
-            @blur="validateDate"
-            filled
-          >
-            <template v-slot:append>
-              <q-icon name="event" class="cursor-pointer" @click="openDatePicker">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="data" mask="DD/MM/YYYY" @input="formatDate">
-                    <div class="row items-center justify-end">
-                      <q-btn v-close-popup label="Fechar" color="primary" flat />
-                    </div>
-                  </q-date>
-                </q-popup-proxy>
-              </q-icon>
-            </template>
-          </q-input>
-
-          <q-input
-            v-model="ra"
-            label="RA"
-            class="q-mb-md input-ra"
-            mask="########"
-            filled
-          />
-
-          <q-input v-model="termo" label="Termo" class="q-mb-md" />
-
-          <q-input
-            v-model="verificacaoCombinados"
-            label="Verificação dos combinados anteriores (Avaliação das ações, dificuldades encontradas, etc.)"
-            type="textarea"
-            filled
-          />
-
-          <q-input v-model="relato" label="Relato do atendimento" type="textarea" filled />
+          <q-input v-model="constelacaoFamiliar" label="Constelação Familiar" filled />
+          <q-input v-model="residencia" label="Com quem reside" filled />
+          <q-input v-model="rotina" label="Rotina de vida e estudos" filled />
+          <q-input v-model="relato" label="Relato do primeiro atendimento" type="textarea" filled />
 
           <div class="q-gutter-md">
             <div class="text-subtitle1 q-mb-sm">Estágio de mudança:</div>
@@ -83,9 +50,11 @@ export default {
       data: '',
       ra: '',
       termo: '',
-      verificacaoCombinados: '',
-      relato: '',
-      combinados: '',
+      constelacaoFamiliar: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula elit, tincidunt ac vehicula non, cursus nec lectus.'],
+      residencia: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula elit, tincidunt ac vehicula non, cursus nec lectus.'],
+      rotina: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula elit, tincidunt ac vehicula non, cursus nec lectus.'],
+      relato: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula elit, tincidunt ac vehicula non, cursus nec lectus. Proin enim elit, posuere a magna et, laoreet tincidunt lectus. Pellentesque pulvinar ligula at urna dapibus vulputate. Ut volutpat dui in lorem rhoncus, condimentum vestibulum nisl posuere. In interdum euismod venenatis. In hac habitasse platea dictumst. Maecenas id tincidunt quam. Donec cursus porttitor arcu in facilisis. Donec lectus nunc, vulputate ut risus sed, pretium faucibus nisi. Nam mollis massa a massa efficitur, sed pretium ipsum venenatis.'],
+      combinados: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ligula elit, tincidunt ac vehicula non, cursus nec lectus.'],
       observacao: '',
       estagioMudanca: '',
       estagios: [
@@ -104,7 +73,7 @@ export default {
       if (dateParts.length === 3) {
         const day = parseInt(dateParts[0], 10);
         const month = parseInt(dateParts[1], 10) - 1; // Meses em JS começam do 0
-        const year = parseInt(dateParts[2], 10); // Leitura correta do ano
+        const year = parseInt(dateParts[2], 10);
 
         const date = new Date(year, month, day);
         if (
@@ -119,7 +88,7 @@ export default {
       }
     },
     validaData(val) {
-      const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/; // Ajuste para checar 4 dígitos para o ano
+      const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
       if (!val.match(regex)) {
         return 'Data inválida. Use o formato DD/MM/AAAA';
       }
@@ -144,7 +113,7 @@ export default {
 }
 
 .logo-img {
-  max-height: 60px; /* Mantenha a mesma altura máxima da primeira logo */
+  max-height: 60px;
 }
 
 .user-info {
@@ -153,11 +122,13 @@ export default {
 }
 
 .q-btn {
+  min-height: 40px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .bg-primary {
-  background-image: linear-gradient(#00ADEE, #19B1A4, #077157) !important;
+  background-image: linear-gradient(#00ADEE,#19B1A4, #077157) !important;
 }
 
 /* Ajuste de largura para o campo de Data */
@@ -167,6 +138,7 @@ export default {
 
 /* Ajuste de largura para o campo de RA */
 .input-ra {
-  max-width: 180px; /* Ajuste para caber 8 números */
+  max-width: 180px; /* Ajuste para caber 12 números */
 }
 </style>
+
