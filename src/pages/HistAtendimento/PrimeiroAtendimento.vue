@@ -25,17 +25,17 @@
           <div class="text-h6">RA: 123456-7</div>
           <div class="text-h6 q-mb-lg">Termo: 5</div>
 
-          <q-input v-model="constelacaoFamiliar" label="Constelação Familiar" filled />
-          <q-input v-model="residencia" label="Com quem reside" filled />
-          <q-input v-model="rotina" label="Rotina de vida e estudos" filled />
-          <q-input v-model="relato" label="Relato do primeiro atendimento" type="textarea" filled />
+          <q-input class="q-mb-md" v-model="constelacaoFamiliar" label="Constelação Familiar" filled />
+          <q-input class="q-mb-md" v-model="residencia" label="Com quem reside" filled />
+          <q-input class="q-mb-md" v-model="rotina" label="Rotina de vida e estudos" filled />
+          <q-input class="q-mb-md" v-model="relato" label="Relato do primeiro atendimento" type="textarea" filled />
 
-          <div class="q-gutter-md">
+          <div class="q-gutter-md q-mt-md q-mb-md">
             <div class="text-subtitle1 q-mb-sm">Estágio de mudança:</div>
             <q-option-group v-model="estagioMudanca" :options="estagios" inline />
           </div>
 
-          <q-input v-model="combinados" label="Combinados" filled />
+          <q-input class="q-mb-md" v-model="combinados" label="Combinados" filled />
           <q-input v-model="observacao" label="Observação" filled />
         </q-card-section>
       </q-card>

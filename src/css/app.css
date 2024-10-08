@@ -4,3 +4,8 @@
 body {
   font-family: 'Baloo Chettan 2', sans-serif;
 }
+
+
+.q-field--filled.q-field--rounded .q-field__control {
+  border-radius: 28px 28px 28px 28px !important;
+}

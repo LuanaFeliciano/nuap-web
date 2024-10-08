@@ -15,7 +15,7 @@
         <q-input outlined rounded v-model="email" label="Email" filled class="login-input" />
         <q-input outlined rounded v-model="senha" label="Senha" type="password" filled class="login-input"/>
         <q-btn label="Login" color="#ffffff" class="login-button" />
-        <q-btn flat label="Cadastre-se" color="#ffffff" class="register" />
+        <q-btn to="/cadastro"  flat label="Cadastre-se" color="#ffffff" class="register" />
       </div>
     </div>
   </q-page>

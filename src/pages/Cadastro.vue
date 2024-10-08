@@ -104,6 +104,7 @@ export default {
 .q-btn {
   background-color: #3e867e;
   height: 50px;
+  color: #ffffff;
 }
 
 .q-btn:hover {
