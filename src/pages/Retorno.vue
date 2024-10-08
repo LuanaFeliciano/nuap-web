@@ -55,21 +55,22 @@
           <q-input v-model="termo" label="Termo" class="q-mb-md" />
 
           <q-input
+            class="q-mb-md"
             v-model="verificacaoCombinados"
             label="Verificação dos combinados anteriores (Avaliação das ações, dificuldades encontradas, etc.)"
             type="textarea"
             filled
           />
 
-          <q-input v-model="relato" label="Relato do atendimento" type="textarea" filled />
+          <q-input class="q-mb-md" v-model="relato" label="Relato do atendimento" type="textarea" filled />
 
-          <div class="q-gutter-md">
+          <div class="q-gutter-md q-mb-md q-mt-md">
             <div class="text-subtitle1 q-mb-sm">Estágio de mudança:</div>
             <q-option-group v-model="estagioMudanca" :options="estagios" inline />
           </div>
 
-          <q-input v-model="combinados" label="Combinados" filled />
-          <q-input v-model="observacao" label="Observação" filled />
+          <q-input class="q-mb-md" v-model="combinados" label="Combinados" filled />
+          <q-input class="q-mb-md" v-model="observacao" label="Observação" filled />
         </q-card-section>
       </q-card>
     </div>
