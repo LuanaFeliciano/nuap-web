@@ -28,7 +28,7 @@
               <div class="form-group">
                 <label>Locomoção</label>
                 <q-option-group class="custom-radio horizontal-group" label="Locomoção" :options="locomocaoOptions" type="radio" inline v-model="locomocao" />
-                <q-input v-if="locomocao === 'outro' "class="custom-input" filled label="teste" v-model="locomocaoOutro"/>
+                <q-input v-if="locomocao === 'outro'" class="custom-input" filled label="teste" v-model="locomocaoOutro"/>
               </div>
             </div>
 
@@ -68,42 +68,61 @@
     <div v-if="activeTab === 'formacao'">
       <q-form>
         <div class="form-group">
+          <div class="form-row" >
+            <label>Ensino Medio Concluido em: </label>
+            <q-input class="custom-input" filled />
 
-          <!-- Input Ensino Médio Concluído no Ano -->
-          <div class="form-row" style="display: flex; align-items: center;">
-            <q-input class="custom-input" filled label="Ensino Médio Concluído" style="flex: 1;" />
-
-            <div style="margin-left: 10px; display: flex; align-items: center;">
-              <q-option-group
-                label="Tipo de Escola" :options="escolaOptions" type="radio" v-model="escola" inline/>
+            <div style="margin-right: 35%;">
+              <q-option-group label="Tipo de Escola" :options="escolaOptions" type="radio" v-model="escola" inline />
             </div>
           </div>
 
           <label>Formação Anterior</label>
-
-          <q-option-group class="custom-radio" :options="[{ label: 'Apenas Ensino Médio Completo', value: 'medioCompleto' }]" type="radio" v-model="formacaoAnterior" />
-          <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px; margin-left: 10px;" />
-          <!-- Opção Superior Incompleto com Inputs -->
-          <div class="form-row" style="margin-top: 10px;">
-            <q-option-group
-              class="custom-radio"
-              :options="[{ label: 'Superior Incompleto', value: 'superiorIncompleto' }]"
-              type="radio"
-              v-model="formacaoAnterior"
-            />
-            <q-input class="custom-input" filled label="Curso" style="width: 150px; margin-left: 10px;" />
-            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px; margin-left: 10px;" />
+          <div class="form-row2">
+            <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Apenas Ensino Médio Completo', value: 'medioCompleto' }]" type="radio" v-model="formacaoAnterior" />
           </div>
 
-          <!-- Opção Superior Completo -->
-          <div class="form-row" style="margin-top: 10px;">
-            <q-option-group
-              class="custom-radio"
-              :options="[{ label: 'Superior Completo', value: 'superiorCompleto' }]"
-              type="radio"
-              v-model="formacaoAnterior"
-            />
+          <div class="form-row2">
+            <q-option-group class="custom-radio" :options="[{ label: 'Superior Incompleto', value: 'superiorIncompleto' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 100px;"/>
+            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;"/>
+            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
           </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio" :options="[{ label: 'Superior Completo', value: 'superiorCompleto' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 110px;"/>
+            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" />
+            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
+          </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio" :options="[{ label: 'Outro', value: 'outro' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 186px;"/>
+            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" />
+            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
+          </div>
+
+          <label>Profissão</label>
+          <div class="form-row2">
+            <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Estudando Apenas', value: 'estudando' }]" type="radio" v-model="formacaoAnterior" />
+          </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio" style="margin-bottom: 17px ;" :options="[{ label: 'Autonomo', value: 'autonomo' }]" type="radio" v-model="formacaoAnterior" />
+          </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio" :options="[{ label: 'Estágio Remunerado', value: 'estagio' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 110px;"/>
+            <q-input class="custom-input" filled label="Local" style="width: 500px; margin-right: 186px;" />
+            <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
+          </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio" :options="[{ label: 'Empregado', value: 'empregado' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 166px;"/>
+            <q-input class="custom-input" filled label="Cargo" style="width: 500px; margin-right: 186px;" />
+            <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
+          </div>
+
+
+
         </div>
       </q-form>
     </div>
@@ -114,36 +133,48 @@
 
     <div v-if="activeTab === 'universidade'">
       <q-form>
-        <div class="q-gutter-md">
-          <q-option-group
-            label="Tempo Dedicado aos Estudos por Dia"
-            :options="tempoEstudoOptions"
-            type="radio"
-            v-model="tempoEstudo"
-          />
-          <q-option-group
-            label="Áreas a Ser Ajudado"
-            :options="areasAjudadoOptions"
-            type="checkbox"
-            v-model="areasAjudado"
-          />
+        <div class="form-group">
+          <div class="form-row" >
+            <label>Tempo Dedicado aos Estudos por Dia</label>
+          </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio horizontal-group" :options="tempoEstudoOptions" type="radio" inline v-model="tempoEstudo"/>
+            </div>
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Somente Finais de Semana', value: 'finaisSemana' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px;"/>
+              <q-input class="custom-input" filled label="Tempo" style="width: 100px;" />
+
+              <q-option-group class="custom-radio" :options="[{ label: 'Somente Vésperas de Provas', value: 'vespera' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px; margin-left: 125px;"/>
+              <q-input class="custom-input" filled label="Tempo" style="width: 100px;" />
+            </div>
+
+          <div class="form-row" >
+            <label>Área a ser Ajudado</label>
+          </div>
+
+          <div class="form-row2">
+            <q-option-group label="Áreas a Ser Ajudado" :options="areasAjudadoOptions" type="checkbox" v-model="areasAjudado"/>
+          </div>
+
+          <div class="form-row2">
+            <q-input filled class="custom-input" label="Explique com mais detalhes as áreas que assinalou acima" type="textarea"/>
+          </div>
+
+          <div class="form-row2">
+            <q-input filled class="custom-input" label="Como gostaria de ser ajudado?" type="textarea" />
+          </div>
+
+
+          <div class="form-row" >
+            <label>Como Chegou ao NuAP?</label>
+          </div>
+
+          <div class="form-row2">
+            <q-option-group class="custom-radio horizontal-group" inline label="Como chegou ao NuAP" :options="chegouNuapOptions" type="radio" v-model="chegouNuap" />
+          </div>
+
         </div>
-        <q-input
-          filled
-          class="custom-input" label="Explique com mais detalhes as áreas que assinalou acima"
-          type="textarea"
-        />
-        <q-input
-          filled
-          class="custom-input" label="Como gostaria de ser ajudado?"
-          type="textarea"
-        />
-        <q-option-group
-            label="Como chegou ao NuAP"
-            :options="chegouNuapOptions"
-            type="radio"
-            v-model="chegouNuap"
-          />
       </q-form>
     </div>
   </div>
@@ -264,6 +295,13 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom:10px;
+}
+
+.form-row2 {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .form-column {
