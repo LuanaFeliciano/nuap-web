@@ -5,6 +5,7 @@
       <q-tab name="identificacao" label="Identificação e Contato" />
       <q-tab name="formacao" label="Formação Anterior e Profissional" />
       <q-tab name="universidade" label="Universidade e Vida Acadêmica" />
+      <q-tab name="revisao" label="Revisar e Finalizar" />
     </q-tabs>
 
     <q-separator />
@@ -14,34 +15,34 @@
       <q-form>
           <div class="form-row">
             <div class="form-column">
-              <q-input class="custom-input" filled label="Nome" />
-              <q-input class="custom-input" filled label="Curso" />
-              <q-input class="custom-input" filled label="Idade" />
-              <q-input class="custom-input" filled label="Telefone" />
+              <q-input class="custom-input" filled label="Nome" v-model="nome"/>
+              <q-input class="custom-input" filled label="Curso" v-model="curso"/>
+              <q-input class="custom-input" filled label="Idade" v-model="idade"/>
+              <q-input class="custom-input" filled label="Telefone" v-model="telefone"/>
 
               <div class="form-group">
                 <label>Residência</label>
                 <q-option-group class="custom-radio horizontal-group" :options="residenciaOptions" type="radio" inline v-model="residencia" />
-                <q-input v-if="residencia === 'outro'" class="custom-input" filled label="Outra Residência" v-model="residenciaOutro"/>
+                <q-input v-if="residencia === 'Outro'" class="custom-input" filled label="Outra Residência" v-model="residenciaOutro"/>
               </div>
 
               <div class="form-group">
                 <label>Locomoção</label>
                 <q-option-group class="custom-radio horizontal-group" label="Locomoção" :options="locomocaoOptions" type="radio" inline v-model="locomocao" />
-                <q-input v-if="locomocao === 'outro'" class="custom-input" filled label="teste" v-model="locomocaoOutro"/>
+                <q-input v-if="locomocao === 'Outro'" class="custom-input" filled label="Outra Locomoção" v-model="locomocaoOutro"/>
               </div>
             </div>
 
             <div class="form-column">
-              <q-input class="custom-input" filled label="RA" />
-              <q-input class="custom-input" filled label="Termo" />
-              <q-input class="custom-input date-input" filled label="Data de Nascimento" type="date" />
-              <q-input class="custom-input" filled label="Fixo ou Outro" />
+              <q-input class="custom-input" filled label="RA" v-model="ra"/>
+              <q-input class="custom-input" filled label="Termo" v-model="termo"/>
+              <q-input class="custom-input date-input" filled label="Data de Nascimento" type="date" v-model="dataNascimento"/>
+              <q-input class="custom-input" filled label="Fixo ou Outro" v-model="fixo"/>
 
               <div class="form-group">
                 <label>Família Reside</label>
                 <q-option-group class="custom-radio horizontal-group" :options="familiaOptions" type="radio" inline v-model="familia" />
-                <q-input v-if="familia === 'outro'" class="custom-input" filled label="Outra Localidade da Família" v-model="familiaOutro"/>
+                <q-input v-if="familia === 'Outro'" class="custom-input" filled label="Outra Localidade da Família" v-model="familiaOutro"/>
               </div>
             </div>
 
@@ -70,60 +71,63 @@
         <div class="form-group">
           <div class="form-row" >
             <label>Ensino Medio Concluido em: </label>
-            <q-input class="custom-input" filled />
+            <q-input class="custom-input" filled v-model="ensinoMedioAno"/>
 
             <div style="margin-right: 35%;">
               <q-option-group label="Tipo de Escola" :options="escolaOptions" type="radio" v-model="escola" inline />
             </div>
           </div>
-
-          <label>Formação Anterior</label>
-          <div class="form-row2">
-            <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Apenas Ensino Médio Completo', value: 'medioCompleto' }]" type="radio" v-model="formacaoAnterior" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" :options="[{ label: 'Superior Incompleto', value: 'superiorIncompleto' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 100px;"/>
-            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;"/>
-            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" :options="[{ label: 'Superior Completo', value: 'superiorCompleto' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 110px;"/>
-            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" />
-            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" :options="[{ label: 'Outro', value: 'outro' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 186px;"/>
-            <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" />
-            <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" />
-          </div>
-
-          <label>Profissão</label>
-          <div class="form-row2">
-            <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Estudando Apenas', value: 'estudando' }]" type="radio" v-model="formacaoAnterior" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" style="margin-bottom: 17px ;" :options="[{ label: 'Autonomo', value: 'autonomo' }]" type="radio" v-model="formacaoAnterior" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" :options="[{ label: 'Estágio Remunerado', value: 'estagio' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 110px;"/>
-            <q-input class="custom-input" filled label="Local" style="width: 500px; margin-right: 186px;" />
-            <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
-          </div>
-
-          <div class="form-row2">
-            <q-option-group class="custom-radio" :options="[{ label: 'Empregado', value: 'empregado' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 166px;"/>
-            <q-input class="custom-input" filled label="Cargo" style="width: 500px; margin-right: 186px;" />
-            <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
-          </div>
-
-
-
         </div>
+
+        <div class="form-group">
+            <label>Formação Anterior</label>
+            <div class="form-row2">
+              <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Apenas Ensino Médio Completo', value: 'Apenas Ensino Médio Completo' }]" type="radio" v-model="formacaoAnterior" />
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Superior Incompleto', value: 'Superior Incompleto' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 100px;"/>
+              <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" v-model="cursoAnterior"/>
+              <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" v-model="ano"/>
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Superior Completo', value: 'Superior Completo' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 110px;"/>
+              <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" v-model="cursoAnterior"/>
+              <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" v-model="ano"/>
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Outro', value: 'Outro' }]" type="radio" v-model="formacaoAnterior" style="margin-right: 186px;"/>
+              <q-input class="custom-input" filled label="Curso" style="width: 500px; margin-right: 186px;" v-model="cursoAnterior"/>
+              <q-input class="custom-input" filled label="Ano" type="number" style="width: 100px;" v-model="ano"/>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label>Profissão</label>
+            <div class="form-row2">
+              <q-option-group class="custom-radio" style="margin-bottom: 17px ;"  :options="[{ label: 'Estudando Apenas', value: 'Estudando Apenas' }]" type="radio" v-model="profissao" />
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" style="margin-bottom: 17px ;" :options="[{ label: 'Autonomo', value: 'Autonomo' }]" type="radio" v-model="profissao" />
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Estágio Remunerado', value: 'Estágio Remunerado' }]" type="radio" v-model="profissao" style="margin-right: 110px;"/>
+              <q-input class="custom-input" filled label="Local" style="width: 500px; margin-right: 186px;" />
+              <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
+            </div>
+
+            <div class="form-row2">
+              <q-option-group class="custom-radio" :options="[{ label: 'Empregado', value: 'Empregado' }]" type="radio" v-model="profissao" style="margin-right: 166px;"/>
+              <q-input class="custom-input" filled label="Cargo" style="width: 500px; margin-right: 186px;" />
+              <q-input class="custom-input" filled label="C/H Semanal" style="width: 200px;" />
+            </div>
+          </div>
+
       </q-form>
     </div>
 
@@ -142,10 +146,10 @@
               <q-option-group class="custom-radio horizontal-group" :options="tempoEstudoOptions" type="radio" inline v-model="tempoEstudo"/>
             </div>
             <div class="form-row2">
-              <q-option-group class="custom-radio" :options="[{ label: 'Somente Finais de Semana', value: 'finaisSemana' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px;"/>
+              <q-option-group class="custom-radio" :options="[{ label: 'Somente Finais de Semana', value: 'Somente Finais de Semana' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px;"/>
               <q-input class="custom-input" filled label="Tempo" style="width: 100px;" />
 
-              <q-option-group class="custom-radio" :options="[{ label: 'Somente Vésperas de Provas', value: 'vespera' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px; margin-left: 125px;"/>
+              <q-option-group class="custom-radio" :options="[{ label: 'Somente Vésperas de Provas', value: 'Somente Vésperas de Provas' }]" type="radio" v-model="tempoEstudo" style="margin-right: 40px; margin-left: 125px;"/>
               <q-input class="custom-input" filled label="Tempo" style="width: 100px;" />
             </div>
 
@@ -158,11 +162,11 @@
           </div>
 
           <div class="form-row2">
-            <q-input filled class="custom-input" label="Explique com mais detalhes as áreas que assinalou acima" type="textarea"/>
+            <q-input filled class="custom-input" label="Explique com mais detalhes as áreas que assinalou acima" type="textarea" v-model="areasASerAjudado"/>
           </div>
 
           <div class="form-row2">
-            <q-input filled class="custom-input" label="Como gostaria de ser ajudado?" type="textarea" />
+            <q-input filled class="custom-input" label="Como gostaria de ser ajudado?" type="textarea" v-model="comoGostariaAjudado"/>
           </div>
 
 
@@ -177,6 +181,52 @@
         </div>
       </q-form>
     </div>
+
+    <div v-if="activeTab === 'revisao'">
+      <q-form>
+        <div class="q-gutter-md">
+          <div class="form-row">
+            <div class="form-column">
+              <h4>Identificação</h4>
+              <p>Nome: {{ nome }}</p>
+              <p>Idade: {{ idade }}</p>
+              <p>Sexo: {{ sexo }}</p>
+              <p>Data de Nascimento: {{ dataNascimento }}</p>
+              <p>RA: {{ ra }}</p>
+              <p>Telefone: {{ telefone }}</p>
+              <p>Residência: {{ residencia }}</p>
+              <p>Residência Outro: {{ residenciaOutro }}</p>
+              <p>Locomoção: {{ locomocao }}</p>
+              <p>Família Reside: {{ familia }}</p>
+              <p>Estado Civil: {{ estadoCivil }}</p>
+              <p>Curso: {{ curso }}</p>
+              <p>Termo: {{ termo }}</p>
+              <p>Auxilio: {{ auxilio }}</p>
+
+            </div>
+            <div class="form-column">
+              <h4>Formação</h4>
+              <p>Ensino Médio Concluído em: {{ ensinoMedioAno }}</p>
+              <p>Tipo de Escola: {{ escola }}</p>
+              <p>Formação Anterior: {{ formacaoAnterior }}</p>
+              <p>Profissão: {{ profissao }}</p>
+            </div>
+
+
+            <div class="form-column">
+              <h4>Universidade</h4>
+              <p>Tempo Dedicado aos Estudos: {{ tempoEstudo }}</p>
+              <p>Áreas a Ser Ajudado: {{ areasAjudado }}</p>
+              <p>Destalhes das Áreas Escolhidas: {{ areasASerAjudado }}</p>
+              <p>Como Gostaria de Ser Ajudado: {{ comoGostariaAjudado }}</p>
+            </div>
+          </div>
+        </div>
+
+        <q-btn label="Cadastrar" color="teal" @click="cadastrar" />
+      </q-form>
+    </div>
+
   </div>
   </q-page>
 </template>
@@ -185,98 +235,137 @@
 export default {
   data() {
     return {
-      activeTab: 'identificacao',
-      sexo: null,
-      auxilio: null,
-      estadoCivil: null,
-      residencia: null,
-      familia: null,
-      locomocao: null,
-      formacaoAnterior: null,
-      profissao: null,
-      tempoEstudo: null,
-      areasAjudado: [],
-      chegouNuap: null,
+      // activeTab: 'identificacao',
+      // sexo: null,
+      // auxilio: null,
+      // estadoCivil: null,
+      // residencia: null,
+      // familia: null,
+      // locomocao: null,
+      // formacaoAnterior: null,
+      // profissao: null,
+      // tempoEstudo: null,
+      // areasAjudado: [],
+      // chegouNuap: null,
 
+      // residenciaOutro: '',
+      // familiaOutro: '',
+      // locomocaoOutro: '',
+
+      activeTab: 'identificacao',
+      // Dados da Identificação
+      nome: '',
+      curso: '',
+      idade: '',
+      telefone: '',
+
+      residencia: null,
       residenciaOutro: '',
-      familiaOutro: '',
+
+      locomocao: null,
       locomocaoOutro: '',
 
+      ra: '',
+      termo: '',
+      dataNascimento: '',
+      fixo: '',
+
+      familia: '',
+      familiaOutro: '',
+
+      sexo: '',
+      auxilio: '',
+      estadoCivil: '',
+
+      // Dados da Formação
+      ensinoMedioAno: '',
+      escola: null,
+      formacaoAnterior: null,
+      cursoAnterior: '',
+      ano: '',
+      profissao: null,
+
+      // Dados da Universidade
+      tempoEstudo: null,
+      areasAjudado: [],
+      comoGostariaAjudado: '',
+      areasASerAjudado: '',
+
       sexOptions: [
-        { label: 'Masculino', value: 'masculino' },
-        { label: 'Feminino', value: 'feminino' },
-        { label: 'Outros', value: 'outros' }
+        { label: 'Masculino', value: 'Masculino' },
+        { label: 'Feminino', value: 'Feminino' },
+        { label: 'Outros', value: 'Outros' }
       ],
       auxilioOptions: [
-        { label: 'FIES', value: 'fies' },
-        { label: 'PROUNI', value: 'prouni' },
-        { label: 'Bolsa', value: 'bolsa' },
-        { label: 'Sem Auxílio', value: 'semAuxilio' }
+        { label: 'FIES', value: 'FIES' },
+        { label: 'PROUNI', value: 'PROUNI' },
+        { label: 'Bolsa', value: 'Bolsa' },
+        { label: 'Sem Auxílio', value: 'Sem Auxílio' }
       ],
       estadoCivilOptions: [
-        { label: 'Solteiro', value: 'solteiro' },
-        { label: 'Casado', value: 'casado' },
-        { label: 'União Estável', value: 'uniaoEstavel' },
-        { label: 'Outro', value: 'outro' }
+        { label: 'Solteiro', value: 'Solteiro' },
+        { label: 'Casado', value: 'Casado' },
+        { label: 'União Estável', value: 'União Estável' },
+        { label: 'Outro', value: 'Outro' }
       ],
       residenciaOptions: [
-        { label: 'Marilia', value: 'marilia' },
-        { label: 'Outro', value: 'outro' },
+        { label: 'Marilia', value: 'Marilia' },
+        { label: 'Outro', value: 'Outro' },
       ],
       familiaOptions: [
-        { label: 'Marilia', value: 'marilia' },
-        { label: 'Outro', value: 'outro' },
+        { label: 'Marilia', value: 'Marilia' },
+        { label: 'Outro', value: 'Outro' },
       ],
       locomocaoOptions: [
-        { label: 'Veiculo Proprio', value: 'veiculoProprio' },
-        { label: 'Onibus Circular', value: 'onibusCircular' },
-        { label: 'A Pé', value: 'aPé' },
-        { label: 'Carona', value: 'carona' },
-        { label: 'Onibus Intermunicipal', value: 'onibusIntermunicipal' },
-        { label: 'Outro', value: 'outro' },
+        { label: 'Veiculo Proprio', value: 'Veiculo Proprio' },
+        { label: 'Onibus Circular', value: 'Onibus Circular' },
+        { label: 'A Pé', value: 'A Pé' },
+        { label: 'Carona', value: 'Carona' },
+        { label: 'Onibus Intermunicipal', value: 'Onibus Intermunicipal' },
+        { label: 'Outro', value: 'Outro' },
       ],
       formacaoAnteriorOptions: [
-        { label: 'Ensino Médio Completo', value: 'medioCompleto' },
-        { label: 'Superior Incompleto', value: 'superiorIncompleto' },
-        { label: 'Superior Completo', value: 'superiorCompleto' },
-        { label: 'Outro', value: 'outro' }
+        { label: 'Ensino Médio Completo', value: 'Ensino Médio Completo' },
+        { label: 'Superior Incompleto', value: 'Superior Incompleto' },
+        { label: 'Superior Completo', value: 'Superior Completo' },
+        { label: 'Outro', value: 'Outro' }
       ],
       escolaOptions: [
-        { label: 'Escola Publica', value: 'publica' },
-        { label: 'Escola Privada', value: 'privada' },
+        { label: 'Escola Publica', value: 'Escola Publica' },
+        { label: 'Escola Privada', value: 'Escola Privada' },
       ],
       profissaoOptions: [
-        { label: 'Estudando Apenas', value: 'estudando' },
-        { label: 'Autônomo', value: 'autonomo' },
-        { label: 'Estágio Remunerado', value: 'estagio' },
-        { label: 'Empregado', value: 'empregado' }
+        { label: 'Estudando Apenas', value: 'Estudando Apenas' },
+        { label: 'Autônomo', value: 'Autônomo' },
+        { label: 'Estágio Remunerado', value: 'Estágio Remunerado' },
+        { label: 'Empregado', value: 'Empregado' }
       ],
       tempoEstudoOptions: [
-        { label: '< 30 minutos', value: '<30min' },
-        { label: '± 30 minutos', value: '30min' },
-        { label: 'Até 1 hora', value: '1hora' },
-        { label: 'Até 2 horas', value: '2horas' },
-        { label: 'Até 3 horas', value: '3horas' },
-        { label: '> 3 horas', value: '>3horas' },
-        { label: 'Somente Finais de Semana', value: 'finaisSemana' },
-        { label: 'Somente Vésperas de Provas', value: 'vespera' }
+        { label: '< 30 minutos', value: '< 30 minutos' },
+        { label: '± 30 minutos', value: '± 30 minutos' },
+        { label: 'Até 1 hora', value: 'Até 1 hora' },
+        { label: 'Até 2 horas', value: 'Até 2 horas' },
+        { label: 'Até 3 horas', value: 'Até 3 horas' },
+        { label: '> 3 horas', value: '> 3 horas' },
+        { label: 'Somente Finais de Semana', value: 'Somente Finais de Semana' },
+        { label: 'Somente Vésperas de Provas', value: 'Somente Vésperas de Provas' }
       ],
       areasAjudadoOptions: [
-        { label: 'Assimilação do Estudo', value: 'assimilacao' },
-        { label: 'Interpretação e Redação de Conteúdo', value: 'interpretacao' },
-        { label: 'Técnica de Estudo', value: 'tecnica' },
-        { label: 'Relação Professor-Aluno', value: 'relacao' },
-        { label: 'Relação com Colegas de Sala', value: 'relacaoColegas' },
-        { label: 'Problemas Emocionais Pessoais', value: 'problemas' },
-        { label: 'Conciliação das Exigencias Academicas e do Trabalho', value: 'conciliacao' },
-        { label: 'Insuficiente Base de Conhecimentos do Ensino Medio', value: 'baseConhecimento' },
-        { label: 'Insuficinte base de Conhecimentos das Disciplinas do Curso Atual', value: 'baseConhecimentoAtual' },
-        { label: 'Outro', value: 'outro' },
+        { label: 'Assimilação do Estudo', value: 'Assimilação do Estudo' },
+        { label: 'Interpretação e Redação de Conteúdo', value: 'Interpretação e Redação de Conteúdo' },
+        { label: 'Técnica de Estudo', value: 'Técnica de Estudo' },
+        { label: 'Relação Professor-Aluno', value: 'Relação Professor-Aluno' },
+        { label: 'Relação com Colegas de Sala', value: 'Relação com Colegas de Sala' },
+        { label: 'Problemas Emocionais Pessoais', value: 'Problemas Emocionais Pessoais' },
+        { label: 'Conciliação das Exigencias Academicas e do Trabalho', value: 'Conciliação das Exigencias Academicas e do Trabalho' },
+        { label: 'Insuficiente Base de Conhecimentos do Ensino Medio', value: 'Insuficiente Base de Conhecimentos do Ensino Medio' },
+        { label: 'Insuficinte base de Conhecimentos das Disciplinas do Curso Atual', value: 'Insuficinte base de Conhecimentos das Disciplinas do Curso Atual' },
+        { label: 'Outro', value: 'Outro' },
       ],
       chegouNuapOptions: [
-        { label: 'Livre Demanda', value: 'livre' },
-        { label: 'Encaminhado por Coord/Prof', value: 'encaminhado' },
-        { label: 'Setores Unimar', value: 'setores' },
+        { label: 'Livre Demanda', value: 'Livre Demanda' },
+        { label: 'Encaminhado por Coord/Prof', value: 'Encaminhado por Coord/Prof' },
+        { label: 'Setores Unimar', value: 'Setores Unimar' },
       ],
     }
   }
@@ -388,6 +477,17 @@ export default {
 
 .q-separator {
   margin: 20px 0;
+}
+
+p {
+  font-size: 20px;
+  color: #555;
+  text-transform: capitalize;
+}
+
+.q-btn {
+  width: 200px;
+  font-size: 18px;
 }
 </style>
 
