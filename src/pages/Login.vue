@@ -13,8 +13,8 @@
       <div class="login-box">
         <h3>Login</h3>
         <q-input outlined rounded v-model="email" label="Email" filled class="login-input" />
-        <q-input outlined rounded v-model="senha" label="Senha" type="password" filled class="login-input"/>
-        <q-btn label="Login" color="#ffffff" class="login-button" />
+        <q-input outlined rounded v-model="password" label="Senha" type="password" filled class="login-input"/>
+        <q-btn @click="login" label="Login" color="#ffffff" class="login-button" />
         <q-btn to="/cadastro"  flat label="Cadastre-se" color="#ffffff" class="register" />
       </div>
     </div>
@@ -22,13 +22,60 @@
 </template>
 
 <script>
+import { api } from 'src/boot/axios';
+import { useQuasar } from 'quasar';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router'; 
 export default {
-  data() {
-    return {
-      email: '',
-      senha: '',
+  setup() {
+    const $q = useQuasar();
+    const email = ref('');
+    const password = ref('');
+    const $router = useRouter();
+
+    const login = () => {
+      api.post('/login', {
+        email: email.value,
+        password: password.value
+      })
+      .then((response) => {
+        console.log(response);
+        const { token, nome, tipo } = response.data.data;
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('nome', nome);
+        localStorage.setItem('tipo', tipo);
+
+        $q.notify({ color: 'secondary', message: response.data.message });
+        $router.push('/alunos');
+      })
+      .catch((error) => {
+        console.log(error.response.data.data.error)
+        if (error.response && error.response.data.data) {
+
+            if (error.response.data.data.error) {
+              const erro = error.response.data.data.error; 
+              $q.notify({ color: 'red', message: erro });
+            }else{
+            const validationErrors = error.response.data.data; 
+            Object.values(validationErrors).forEach((messages) => {
+              messages.forEach((msg) => {
+                $q.notify({ color: 'red', message: msg });
+              });
+            });
+          }
+          } else {
+            $q.notify({ color: 'red', message: 'Login falhou. Tente novamente.' });
+          }
+      });
     };
-  },
+
+    return {
+      email,
+      password,
+      login
+    };
+  }
 };
 </script>
 
