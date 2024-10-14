@@ -19,24 +19,23 @@
 
     <!-- Filtros e Tabela -->
     <div class="q-pa-md">
-      <!-- Filtros de Pesquisa -->
       <div class="row q-gutter-md q-pb-md">
         <div class="d-flex align-center">
           <div class="q-mr-sm">
             <h5 class="student-title">Alunos</h5>
-            <span class="total-count"> {{ filteredStudents.length }} Alunos</span>
+            <span class="total-count">{{ filteredStudents.length }} Alunos</span>
           </div>
           <q-btn-group push>
-            <q-btn label="Todos" outlined :class="{ 'bg-primary text-white': isAllSelected }" @click="selectAll" />
-            <q-btn label="Atendido" outlined @click="filterByStatus('Atendido')" />
-            <q-btn label="Não Atendido" outlined @click="filterByStatus('Não Atendido')" />
-            <q-btn label="Falta" outlined @click="filterByStatus('Falta')" />
-            <q-btn label="Fila de Espera" outlined @click="filterByStatus('Fila de Espera')" />
+            <q-btn label="Todos" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Todos' }" @click="filterByStatus('Todos')" />
+            <q-btn label="Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Atendido' }" @click="filterByStatus('Atendido')" />
+            <q-btn label="Não Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Não Atendido' }" @click="filterByStatus('Não Atendido')" />
+            <q-btn label="Falta" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Falta' }" @click="filterByStatus('Falta')" />
+            <q-btn label="Fila de Espera" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Fila de Espera' }" @click="filterByStatus('Fila de Espera')" />
           </q-btn-group>
         </div>
 
-        <q-input v-model="searchAluno" label="RA Aluno" outlined class="q-ml-sm" />
-        <q-input v-model="searchEstagiario" label="RA Estagiário" outlined class="q-ml-sm" />
+        <q-input v-model="searchAluno" label="RA Aluno" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
+        <q-input v-model="searchEstagiario" label="RA Estagiário" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
         <q-input v-model="searchDate" label="Data" outlined mask="##/##/####" class="q-ml-sm" />
         <q-btn color="primary" label="Cadastrar Aluno" class="q-ml-sm" />
       </div>
@@ -60,14 +59,15 @@
 
           <!-- Customização da Célula de Status -->
           <template v-slot:body-cell-status="props">
-            <q-chip
-              :color="getStatusColor(props.row.status)"
-              text-color="white"
-              size="md"
-              @click="showStatusMenu(props.row)"
-            >
-              {{ props.row.status }}
-            </q-chip>
+            <div class="status-container">
+              <span class="status-label">{{ props.row.status }}</span>
+              <q-btn
+                :color="getStatusColor(props.row.status)"
+                text-color="white"
+                @click="showStatusMenu(props.row)"
+                class="status-button"
+              />
+            </div>
           </template>
         </q-table>
       </q-card>
@@ -95,7 +95,7 @@ export default {
       searchAluno: '',
       searchEstagiario: '',
       searchDate: '',
-      selectedStatus: 'Todos', // Adicione essa linha
+      selectedStatus: 'Todos',
       students: [
         {
           ra: '87345623',
@@ -104,6 +104,7 @@ export default {
           email: 'brooklyn@gmail.com',
           contact: '(603) 555-0123',
           date: '21/10/2022',
+          time: '10:30',
           status: 'Atendido',
         },
         {
@@ -113,6 +114,7 @@ export default {
           email: 'kristinw@gmail.com',
           contact: '(218) 555-0114',
           date: '22/10/2022',
+          time: '11:00',
           status: 'Falta',
         },
         {
@@ -122,6 +124,7 @@ export default {
           email: 'jacobj@gmail.com',
           contact: '(218) 555-0115',
           date: '23/10/2022',
+          time: '09:00',
           status: 'Fila de Espera',
         },
         {
@@ -131,6 +134,7 @@ export default {
           email: 'codyf@gmail.com',
           contact: '(228) 555-0099',
           date: '24/10/2022',
+          time: '02:00',
           status: 'Atendido',
         },
         {
@@ -139,7 +143,8 @@ export default {
           faculdade: 'Medicina',
           email: 'Pedrf@gmail.com',
           contact: '(134) 668-7890',
-          date: '39/10/2022',
+          date: '25/10/2022',
+          time: '03:30',
           status: 'Atendido',
         },
         {
@@ -149,18 +154,20 @@ export default {
           email: 'Mika@gmail.com',
           contact: '(468) 999-6899',
           date: '01/02/2022',
+          time: '12:00',
           status: 'Falta',
         },
       ],
       statusDialog: false,
       selectedStudent: null,
-      isAllSelected: true, // Para o botão "Todos"
+      isAllSelected: true,
       columns: [
-        { name: 'name', label: 'Nome', align: 'left', field: 'name', },
+        { name: 'name', label: 'Nome', align: 'left', field: 'name' },
         { name: 'ra', label: 'RA', align: 'left', field: 'ra' },
         { name: 'email', label: 'Email', align: 'left', field: 'email' },
         { name: 'contact', label: 'Contato', align: 'left', field: 'contact' },
         { name: 'date', label: 'Data Cadastro', align: 'left', field: 'date' },
+        { name: 'time', label: 'Horário Cadastro', align: 'left', field: 'time' },
         { name: 'status', label: 'Status', align: 'left', field: 'status' },
       ],
     };
@@ -179,34 +186,22 @@ export default {
   methods: {
     selectAll() {
       this.isAllSelected = true;
-      this.selectedStatus = 'Todos'; // Reseta o status selecionado para Todos
+      this.selectedStatus = 'Todos';
     },
     filterByStatus(status) {
-      this.isAllSelected = false; // Desmarca o botão "Todos"
-      this.selectedStatus = status; // Armazena o status selecionado
-    },
-    getStatusColor(status) {
-      switch (status) {
-        case 'Atendido':
-          return 'green';
-        case 'Falta':
-          return 'red';
-        case 'Fila de Espera':
-          return 'orange';
-        default:
-          return 'grey';
-      }
-    },
-    updateStatus(student, status) {
-      const studentToUpdate = this.students.find(s => s.ra === student.ra);
-      if (studentToUpdate) {
-        studentToUpdate.status = status;
-      }
-      this.statusDialog = false;
+      this.isAllSelected = false;
+      this.selectedStatus = status;
     },
     showStatusMenu(student) {
       this.selectedStudent = student;
       this.statusDialog = true;
+    },
+    updateStatus(student, status) {
+      student.status = status;
+      this.statusDialog = false;
+    },
+    getStatusColor(status) {
+      return status === 'Atendido' ? 'green' : status === 'Falta' ? 'red' : 'yellow';
     },
   },
 };
@@ -238,25 +233,32 @@ export default {
 
 .d-flex {
   display: flex;
-  align-items: center; /* Alinhamento vertical */
+  align-items: center;
 }
 
 .student-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333; /* Cor do título */
-  margin: 0; /* Remove a margem padrão */
+  color: #333;
+  margin: 0;
 }
 
 .total-count {
   font-size: 16px;
-  color: #666; /* Cor da contagem */
-  margin-top: 4px; /* Adiciona um pequeno espaço entre o título e a contagem */
+  color: #666;
+  margin-top: 4px;
 }
 
 .student-faculty {
   font-size: 0.9em;
-  color: rgb(181, 204, 204); /* Cor mais clara para a faculdade */
+  color: rgb(181, 204, 204);
 }
 
+.q-table__header {
+  padding: 0 10px;
+}
+
+.q-table__body {
+  padding: 0 10px;
+}
 </style>
