@@ -9,3 +9,7 @@ body {
 .q-field--filled.q-field--rounded .q-field__control {
   border-radius: 28px 28px 28px 28px !important;
 }
+
+.bg-primary {
+  background-image: linear-gradient(#00ADEE, #19B1A4, #077157) !important;
+}
