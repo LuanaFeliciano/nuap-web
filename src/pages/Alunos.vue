@@ -6,53 +6,64 @@
       <div class="row q-gutter-md q-pb-md">
         <div class="d-flex align-center">
           <div class="q-mr-sm">
-            <h5 class="student-title">Alunos</h5>
-            <span class="total-count">{{ filteredStudents.length }} Alunos</span>
+            <h5 class="student-title">Agendamentos</h5>
+            <span class="total-count">{{ filteredAgendamentos.length }} Agendamentos</span>
           </div>
           <q-btn-group push>
             <q-btn label="Todos" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Todos' }" @click="filterByStatus('Todos')" />
             <q-btn label="Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Atendido' }" @click="filterByStatus('Atendido')" />
             <q-btn label="Não Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Não Atendido' }" @click="filterByStatus('Não Atendido')" />
             <q-btn label="Falta" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Falta' }" @click="filterByStatus('Falta')" />
-            <q-btn label="Fila de Espera" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Fila de Espera' }" @click="filterByStatus('Fila de Espera')" />
+            <q-btn label="Finalizado" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Finalizado' }" @click="filterByStatus('Finalizado')" />
+            <q-btn label="Cancelado" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Cancelado' }" @click="filterByStatus('Cancelado')" />
           </q-btn-group>
         </div>
       </div>
+
       <div class="row q-gutter-md absolute-right q-pt-lg q-mr-lg">
-        <q-input v-model="searchAluno" label="RA Aluno" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
-        <q-input v-model="searchEstagiario" label="RA Estagiário" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
+        <q-input v-if="tipo !== 'estagiario'"  v-model="searchEstagiario" label="RA Estagiário" outlined class="q-ml-sm" />
+
+        <q-input v-model="searchAluno" label="RA Aluno" outlined class="q-ml-sm" />
+        
         <q-input v-model="searchDate" label="Data" outlined mask="##/##/####" class="q-ml-sm" />
-        <q-btn color="primary" label="Cadastrar Aluno" class="q-ml-sm" style="height: 55px" />
+
+        <q-btn color="primary" label="Consultar" class="q-ml-sm" style="height: 55px;" @click="consultarAgendamentos" />
       </div>
 
-      <!-- Tabela de Alunos -->
+
+      <!-- Tabela de Agendamentos -->
       <q-card flat bordered>
         <q-table
-          :rows="filteredStudents"
+          :rows="filteredAgendamentos"
           :columns="columns"
-          row-key="ra"
+          row-key="Agendamento"
           flat
-          class="student-table"
+          class="student-table"  
+         
         >
-          <!-- Customização da Célula de Nome -->
-          <template v-slot:body-cell-name="props">
-            <div>
-              {{ props.row.name }}
-              <div class="student-faculty">{{ props.row.faculdade }}</div>
-            </div>
+          <!-- Customização da Célula de Aluno -->
+          <template v-slot:body-cell-aluno="props">
+            <q-td :props="props">
+              <div>
+                {{ props.row.aluno }}
+                <div class="student-faculty">{{ props.row.curso }} - {{ props.row.termo }}</div>
+              </div>
+            </q-td>
           </template>
 
           <!-- Customização da Célula de Status -->
           <template v-slot:body-cell-status="props">
-            <div class="status-container">
-              <span class="status-label">{{ props.row.status }}</span>
-              <q-btn
-                :color="getStatusColor(props.row.status)"
-                text-color="white"
-                @click="showStatusMenu(props.row)"
-                class="status-button"
-              />
-            </div>
+            <q-td :props="props">
+              <div class="status-container">
+                <q-badge
+                  :color="getStatusColor(props.row.status)"
+                  text-color="white"
+                  :label="props.row.status"
+                  @click="showStatusMenu(props.row, tipo)"
+                  style="cursor: pointer; font-size: 1em; padding: 0.5em 1em;"
+                />
+              </div>
+            </q-td>
           </template>
         </q-table>
       </q-card>
@@ -60,13 +71,50 @@
 
     <!-- Menu de Status -->
     <q-dialog v-model="statusDialog" persistent>
-      <q-card>
-        <q-card-title>Escolha o Status</q-card-title>
-        <q-card-actions>
-          <q-btn flat label="Atendido" @click="updateStatus(selectedStudent, 'Atendido')" />
-          <q-btn flat label="Falta" @click="updateStatus(selectedStudent, 'Falta')" />
-          <q-btn flat label="Fila de Espera" @click="updateStatus(selectedStudent, 'Fila de Espera')" />
-          <q-btn flat label="Cancelar" @click="statusDialog = false" />
+      <q-card class="q-pa-md" style="max-width: 400px;">
+        <q-card-section>
+          <div class="text-h6 text-center">Escolha o Status</div>
+        </q-card-section>
+
+        <q-card-section>
+          <div class="q-gutter-md q-px-lg">
+            <q-btn
+              label="Atendido"
+              icon="done"
+              color="positive"
+              class="full-width"
+              glossy
+              @click="updateStatus(selectedStudent, 'Atendido')"
+            />
+            <q-btn
+              label="Falta"
+              icon="close"
+              color="negative"
+              class="full-width"
+              glossy
+              @click="updateStatus(selectedStudent, 'Falta')"
+            />
+            <q-btn
+              label="Fila de Espera"
+              icon="schedule"
+              color="warning"
+              class="full-width"
+              glossy
+              @click="updateStatus(selectedStudent, 'Fila de Espera')"
+            />
+            <q-btn
+              label="Cancelar"
+              icon="cancel"
+              flat
+              color="primary"
+              class="full-width"
+              @click="statusDialog = false"
+            />
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right" class="q-pr-md">
+          <q-btn flat label="Fechar" color="primary" @click="statusDialog = false" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -74,8 +122,10 @@
 </template>
 
 <script>
+import { api } from 'src/boot/axios';
+
 export default {
-  setup(){//
+  setup() {
     let nome = localStorage.getItem('nome');
     let tipo = localStorage.getItem('tipo');
 
@@ -87,119 +137,92 @@ export default {
   data() {
     return {
       searchAluno: '',
-      searchEstagiario: '',
       searchDate: '',
       selectedStatus: 'Todos',
-      students: [
-        {
-          ra: '87345623',
-          name: 'Brooklyn Simmons',
-          faculdade: 'Engenharia da Computação',
-          email: 'brooklyn@gmail.com',
-          contact: '(603) 555-0123',
-          date: '21/10/2022',
-          time: '10:30',
-          status: 'Atendido',
-        },
-        {
-          ra: '89374653',
-          name: 'Kristin Watson',
-          faculdade: 'Administração',
-          email: 'kristinw@gmail.com',
-          contact: '(218) 555-0114',
-          date: '22/10/2022',
-          time: '11:00',
-          status: 'Falta',
-        },
-        {
-          ra: '23847659',
-          name: 'Jacob Jones',
-          faculdade: 'Psicologia',
-          email: 'jacobj@gmail.com',
-          contact: '(218) 555-0115',
-          date: '23/10/2022',
-          time: '09:00',
-          status: 'Fila de Espera',
-        },
-        {
-          ra: '39485652',
-          name: 'Cody Fisher',
-          faculdade: 'Direito',
-          email: 'codyf@gmail.com',
-          contact: '(228) 555-0099',
-          date: '24/10/2022',
-          time: '02:00',
-          status: 'Atendido',
-        },
-        {
-          ra: '16848953',
-          name: 'Pedrinho Breu',
-          faculdade: 'Medicina',
-          email: 'Pedrf@gmail.com',
-          contact: '(134) 668-7890',
-          date: '25/10/2022',
-          time: '03:30',
-          status: 'Atendido',
-        },
-        {
-          ra: '98648536',
-          name: 'Mikaeh Russ',
-          faculdade: 'Educação Física',
-          email: 'Mika@gmail.com',
-          contact: '(468) 999-6899',
-          date: '01/02/2022',
-          time: '12:00',
-          status: 'Falta',
-        },
-      ],
       statusDialog: false,
       selectedStudent: null,
-      isAllSelected: true,
+      agendamentos: [],
       columns: [
-        { name: 'name', label: 'Nome', align: 'left', field: 'name' },
-        { name: 'ra', label: 'RA', align: 'left', field: 'ra' },
-        { name: 'email', label: 'Email', align: 'left', field: 'email' },
-        { name: 'contact', label: 'Contato', align: 'left', field: 'contact' },
-        { name: 'date', label: 'Data Cadastro', align: 'left', field: 'date' },
-        { name: 'time', label: 'Horário Cadastro', align: 'left', field: 'time' },
+        { name: 'aluno', label: 'Aluno', align: 'left', field: 'aluno' },
+        { name: 'alunoRA', label: 'RA Aluno', align: 'left', field: 'alunoRA' },
+        { name: 'estagiario', label: 'Estagiário', align: 'left', field: 'estagiario' },
+        { name: 'estagiarioRA', label: 'Estagiário RA', align: 'left', field: 'estagiarioRA' },
+        { name: 'contato', label: 'Contato', align: 'left', field: 'contato' },
+        { name: 'contatoTelefone', label: 'Contato Telefone', align: 'left', field: 'contatoTelefone' },
+        { name: 'sala', label: 'Sala', align: 'left', field: 'sala' },
+        { name: 'Data', label: 'Data Agendamento', align: 'left', field: 'Data' },
         { name: 'status', label: 'Status', align: 'left', field: 'status' },
       ],
     };
   },
   computed: {
-    filteredStudents() {
-      return this.students.filter(student => {
-        const matchesSearch = student.name.includes(this.searchAluno) &&
-                              student.ra.includes(this.searchEstagiario) &&
-                              (this.searchDate ? student.date.includes(this.searchDate) : true);
-        const matchesStatus = this.selectedStatus === 'Todos' || student.status === this.selectedStatus;
-        return matchesSearch && matchesStatus;
+    filteredAgendamentos() {
+      return this.agendamentos.filter(agendamento => {
+        
+        const matchesStatus = this.selectedStatus === 'Todos' || agendamento.status === this.selectedStatus;
+        return matchesStatus;
       });
     },
   },
+  
   methods: {
-    selectAll() {
-      this.isAllSelected = true;
-      this.selectedStatus = 'Todos';
-    },
     filterByStatus(status) {
-      this.isAllSelected = false;
       this.selectedStatus = status;
     },
-    showStatusMenu(student) {
-      this.selectedStudent = student;
-      this.statusDialog = true;
+    showStatusMenu(agendamento, tipo) {
+      this.selectedStudent = agendamento;
+      if (tipo != "estagiario") {
+        this.statusDialog = true;
+      }
+      
     },
-    updateStatus(student, status) {
-      student.status = status;
+    updateStatus(agendamento, status) {
+      agendamento.status = status;
       this.statusDialog = false;
     },
     getStatusColor(status) {
-      return status === 'Atendido' ? 'green' : status === 'Falta' ? 'red' : 'yellow';
+      return status === 'Atendido' ? 'green' : status === 'Falta' ? 'red' : 'warning';
     },
+    async fetchAgendamentos() {
+      try {
+        const response = await api.get('/consultarAgendamento');
+        this.agendamentos = response.data.agendamentos; 
+      } catch (error) {
+        console.error('Erro ao buscar agendamentos:', error);
+      }
+    },
+
+    async consultarAgendamentos() {
+      const params = {};
+
+      if (this.searchEstagiario) {
+        params.RaEstagiario = this.searchEstagiario;
+      }
+      if (this.searchAluno) {
+        params.RaAluno = this.searchAluno;
+      }
+      if (this.searchDate) {
+        params.Data = this.searchDate;
+      }
+
+      try {
+        const response = await api.get('/consultarAgendamento', { params });
+        this.agendamentos = response.data.agendamentos;
+        console.log("AGENDAMENTOS",response.data.agendamentos)
+      } catch (error) {
+        console.error('Erro ao consultar agendamentos:', error);
+      }
+    },
+  },
+
+  
+
+  mounted() {
+    this.fetchAgendamentos();//chama ao carregar pcomponente
   },
 };
 </script>
+
 
 <style scoped>
 
@@ -232,8 +255,8 @@ export default {
 }
 
 .student-faculty {
-  font-size: 0.9em;
-  color: rgb(181, 204, 204);
+  font-size: 1em;
+  color: rgb(153, 153, 153);
 }
 
 .q-table__header {
