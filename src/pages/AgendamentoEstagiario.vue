@@ -138,7 +138,7 @@ export default {
           contact: '(134) 668-7890',
           date: '25/10/2022',
           time: '03:30',
-          status: 'Atendido',
+          status: 'Fila de Espera',
         },
         {
           ra: '98648536',
