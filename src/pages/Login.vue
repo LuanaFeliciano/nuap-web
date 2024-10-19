@@ -47,7 +47,7 @@ export default {
         localStorage.setItem('tipo', tipo);
 
         $q.notify({ color: 'secondary', message: response.data.message });
-        $router.push('/alunos');
+        $router.push('/agendamentos');
       })
       .catch((error) => {
         console.log(error.response.data.data.error)
