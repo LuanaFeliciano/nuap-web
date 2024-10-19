@@ -14,15 +14,14 @@
             <q-btn label="Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Atendido' }" @click="filterByStatus('Atendido')" />
             <q-btn label="Não Atendido" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Não Atendido' }" @click="filterByStatus('Não Atendido')" />
             <q-btn label="Falta" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Falta' }" @click="filterByStatus('Falta')" />
-            <q-btn label="Fila de Espera" outlined :class="{ 'bg-primary text-white': selectedStatus === 'Fila de Espera' }" @click="filterByStatus('Fila de Espera')" />
           </q-btn-group>
         </div>
       </div>
+
       <div class="row q-gutter-md absolute-right q-pt-lg q-mr-lg">
         <q-input v-model="searchAluno" label="RA Aluno" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
-        <q-input v-model="searchEstagiario" label="RA Estagiário" outlined class="q-ml-sm" :rules="[val => (val === '' || /^\d+$/.test(val) || 'Apenas números são permitidos')]" />
         <q-input v-model="searchDate" label="Data" outlined mask="##/##/####" class="q-ml-sm" />
-        <q-btn color="primary" label="Cadastrar Aluno" class="q-ml-sm" style="height: 55px" />
+        <q-btn color="primary" label="Cadastrar Aluno" class="q-ml-sm" style="height: 55px;" />
       </div>
 
       <!-- Tabela de Alunos -->
@@ -243,4 +242,6 @@ export default {
 .q-table__body {
   padding: 0 10px;
 }
+
+
 </style>

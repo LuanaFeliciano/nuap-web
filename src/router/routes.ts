@@ -17,6 +17,11 @@ const routes: RouteRecordRaw[] = [
     children: [{ path: '', component: () => import('pages/Atendimento.vue')}],
   },
   {
+    path: '/agendEstagiario',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('pages/AgendamentoEstagiario.vue')}],
+  },
+  {
     path: '/AtendRetorno',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/Retorno.vue')}],
