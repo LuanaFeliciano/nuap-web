@@ -31,31 +31,27 @@
           :columns="columns"
           row-key="ra"
           flat
-          class="student-table"   
+          class="student-table"
         >
           <!-- Customização da Célula de Nome -->
           <template v-slot:body-cell-name="props">
-            <q-td :props="props">
-              <div>
-                {{ props.row.name }}
-                <div class="student-faculty">{{ props.row.faculdade }}</div>
-              </div>
-            </q-td>
+            <div>
+              {{ props.row.name }}
+              <div class="student-faculty">{{ props.row.faculdade }}</div>
+            </div>
           </template>
 
           <!-- Customização da Célula de Status -->
           <template v-slot:body-cell-status="props">
-            <q-td :props="props">
-              <div class="status-container">
-                <q-badge
-                  :color="getStatusColor(props.row.status)"
-                  text-color="white"
-                  :label="props.row.status"
-                  @click="showStatusMenu(props.row)"
-                  style="cursor: pointer; font-size: 1em; padding: 0.5em 1em;"
-                />
-              </div>
-            </q-td>
+            <div class="status-container">
+              <span class="status-label">{{ props.row.status }}</span>
+              <q-btn
+                :color="getStatusColor(props.row.status)"
+                text-color="white"
+                @click="showStatusMenu(props.row)"
+                class="status-button"
+              />
+            </div>
           </template>
         </q-table>
       </q-card>
@@ -63,50 +59,13 @@
 
     <!-- Menu de Status -->
     <q-dialog v-model="statusDialog" persistent>
-      <q-card class="q-pa-md" style="max-width: 400px;">
-        <q-card-section>
-          <div class="text-h6 text-center">Escolha o Status</div>
-        </q-card-section>
-
-        <q-card-section>
-          <div class="q-gutter-md q-px-lg">
-            <q-btn
-              label="Atendido"
-              icon="done"
-              color="positive"
-              class="full-width"
-              glossy
-              @click="updateStatus(selectedStudent, 'Atendido')"
-            />
-            <q-btn
-              label="Falta"
-              icon="close"
-              color="negative"
-              class="full-width"
-              glossy
-              @click="updateStatus(selectedStudent, 'Falta')"
-            />
-            <q-btn
-              label="Fila de Espera"
-              icon="schedule"
-              color="warning"
-              class="full-width"
-              glossy
-              @click="updateStatus(selectedStudent, 'Fila de Espera')"
-            />
-            <q-btn
-              label="Cancelar"
-              icon="cancel"
-              flat
-              color="primary"
-              class="full-width"
-              @click="statusDialog = false"
-            />
-          </div>
-        </q-card-section>
-
-        <q-card-actions align="right" class="q-pr-md">
-          <q-btn flat label="Fechar" color="primary" @click="statusDialog = false" />
+      <q-card>
+        <q-card-title>Escolha o Status</q-card-title>
+        <q-card-actions>
+          <q-btn flat label="Atendido" @click="updateStatus(selectedStudent, 'Atendido')" />
+          <q-btn flat label="Falta" @click="updateStatus(selectedStudent, 'Falta')" />
+          <q-btn flat label="Fila de Espera" @click="updateStatus(selectedStudent, 'Fila de Espera')" />
+          <q-btn flat label="Cancelar" @click="statusDialog = false" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -235,7 +194,7 @@ export default {
       this.statusDialog = false;
     },
     getStatusColor(status) {
-      return status === 'Atendido' ? 'green' : status === 'Falta' ? 'red' : 'warning';
+      return status === 'Atendido' ? 'green' : status === 'Falta' ? 'red' : 'yellow';
     },
   },
 };
