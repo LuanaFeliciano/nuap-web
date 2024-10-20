@@ -5,7 +5,7 @@
       <q-img src="/src/assets/LogoNuAP.png" class="q-mr-md logo-img" width="120px" />
       <q-btn flat label="Agendamentos" to="/agendamentos" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
       <q-btn flat label="Cadastrar Aluno" to="/cadPaciente" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
-      <q-btn flat label="Dados" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
+      <q-btn flat label="Dados" to="/regisAluno" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
       <q-btn flat label="Fila de espera" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
       <q-btn flat label="Histórico" class="q-ml-sm" style="min-height: 40px; font-size: 16px;" />
       <q-space />
